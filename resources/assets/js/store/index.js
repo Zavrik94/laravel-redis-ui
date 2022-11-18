@@ -1,11 +1,8 @@
-/**
- * Created by feikwok on 1/9/17.
- */
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
-// Vue.use(Vuex)
+// Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {

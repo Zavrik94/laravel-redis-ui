@@ -1,8 +1,10 @@
 <?php
-namespace Feikwok\RedisUI\Http\Controllers\API;
+namespace Zavrik\RedisUI\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+use Illuminate\Redis\RedisManager;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Response;
 
@@ -16,7 +18,7 @@ class RedisFilterController extends Controller {
     public function index(Request $request) {
         if ($request->has('filters')) {
             $filters = $request->get('filters');
-            $redis = Redis::connection($request->get('database'));
+            $redis = Redis::connection($request->get('database'))->client();
 
             if (!empty($redis)) {
                 // 1. Firt find the keys matched the filters
@@ -69,8 +71,8 @@ class RedisFilterController extends Controller {
     {
         // 1. check the key is existed
         if ($request->has('keyname') && $request->has('database')) {
-            $redis = Redis::connection($request->get('database'));
-            $existingContent = $redis->get($request->get('keyname'));
+            $redis = Redis::connection($request->get('database'))->client();
+            $existingContent = $redis->rawCommand("GET", $request->get('keyname'));
             if (empty($existingContent)) {
                 $redis->set($request->get('keyname'), $request->get('content'));
                 return Response::json([
@@ -100,11 +102,11 @@ class RedisFilterController extends Controller {
     {
         // 1. check the key is existed
         if ($request->has('keyname') && $request->has('database')) {
-            $redis = Redis::connection($request->get('database'));
-            $existingContent = $redis->get($request->get('keyname'));
+            $redis = Redis::connection($request->get('database'))->client();
+            $existingContent = $redis->rawCommand("GET", $request->get('keyname'));
 
             if (!empty($existingContent)) {
-                $redis->del($request->get('keyname'));
+                $redis->rawCommand("DEL", $request->get('keyname'));
                 $redis->set($request->get('keyname'), $request->get('content'));
                 return Response::json([
                     'success' => true
@@ -132,11 +134,9 @@ class RedisFilterController extends Controller {
     public function delete(Request $request)
     {
         if ($request->has('keyname') && $request->has('database')) {
-            $redis = Redis::connection($request->get('database'));
-            $redis->del($request->get('keyname'));
-
+            $redis = Redis::connection($request->get('database'))->client();
             return Response::json([
-                'success' => true
+                'success' => $redis->rawCommand('DEL', $request->get('keyname'))
             ]);
         } else {
             return Response::json([
@@ -154,25 +154,12 @@ class RedisFilterController extends Controller {
      * @param $searchContent
      * @return array
      */
-    protected function getFullyMatchedKeys($redis, $keys, $searchContent)
+    protected function getFullyMatchedKeys(\Redis $redis, $keys, $searchContent)
     {
         $fullyMatchedKeys = [];
 
         foreach ($keys as $index => $key) {
-            $keyType = $redis->type($key)->__toString();
-            switch ($keyType) {
-                case "string":
-                    $content = $redis->get($key);
-                    break;
-                case "list":
-                    $content = substr(json_encode($redis->lrange($key, 0, -1)), 0, 100).'... more';
-                    break;
-                case "zset":
-                    $content = substr(json_encode($redis->zrange($key, 0, -1)), 0, 100).'... more';
-                    break;
-                default:
-                    $content = 'Unhandled Type: '.$keyType;
-            }
+            $content = $redis->rawCommand('GET', $key);
 
             if (preg_match('/.*' . $searchContent . '.*/i', $content)) {
                 $fullyMatchedKeys[] = [
@@ -192,7 +179,7 @@ class RedisFilterController extends Controller {
      * @param $redis
      * @return mixed
      */
-    protected function findKeysAndSearchContent($filters, $redis)
+    protected function findKeysAndSearchContent($filters, \Redis $redis)
     {
         $searchKey = "";
         $searchContent = "";

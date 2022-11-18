@@ -1,12 +1,12 @@
 <?php
-namespace Feikwok\RedisUI\Http\Controllers\API;
+namespace Zavrik\RedisUI\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Response;
 
-class DefaultController extends Controller 
+class DefaultController extends Controller
 {
 	public function getAvailableDatabase ()
 	{

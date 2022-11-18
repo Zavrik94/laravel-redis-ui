@@ -1,9 +1,8 @@
 <?php
 
-namespace Feikwok\RedisUI;
+namespace Zavrik\RedisUI;
 
-use Feikwok\RedisUI\Http\Controllers\UIController;
-use Feikwok\RedisUI\Middleware\RedisUiAuth;
+use Zavrik\RedisUI\Http\Controllers\UIController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -52,7 +51,7 @@ class LaravelRedisUIServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                PACKAGE_PATH.'/resources/public' => public_path('vendor/feikwok/laravel-redis-ui'),
+                PACKAGE_PATH.'/resources/public' => public_path('vendor/zavrik/laravel-redis-ui'),
             ], 'laravel-redis-ui');
         }
 
@@ -67,7 +66,7 @@ class LaravelRedisUIServiceProvider extends ServiceProvider
     // {
     //     Route::group([
     //         'prefix' => 'redis-ui',
-    //         'namespace' => 'Feikwok\RedisUI\Http\Controllers',
+    //         'namespace' => 'Zavrik\RedisUI\Http\Controllers',
     //         'middleware' => 'web',
     //     ], function () {
     //         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');

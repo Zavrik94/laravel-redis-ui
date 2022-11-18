@@ -46,11 +46,11 @@ or
 
 **Add and install the package with the follow command to your laravel application**
 ```
-composer require feikwok/laravel-redis-ui
+composer require zavrik/laravel-redis-ui
 ```
 **Update the config/app.php file to include the following line in 'providers' section**
 ```
-Feikwok\RedisUI\LaravelRedisUIServiceProvider::class,
+Zavrik\RedisUI\LaravelRedisUIServiceProvider::class,
 ```
 **At last make sure you publish the resources to your public folder**
 ```

@@ -1,6 +1,3 @@
-/**
- * Created by feikwok on 1/9/17.
- */
 import store from './store'
 
 import MessageBox from './components/MessageBoxTemplate.vue'

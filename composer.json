@@ -1,5 +1,5 @@
 {
-	"name" : "feikwok/laravel-redis-ui",
+	"name" : "zavrik/laravel-redis-ui",
 	"description" : "Redis content management system for laravel application",
 	"keywords" : [
 		"laravel",
@@ -9,10 +9,10 @@
 	"type" : "package",
 	"require" : {
 		"php" : ">=7.0",
-		"illuminate/console" : "5.3.* || 5.4.* || 5.5.* || 5.6.*",
-		"illuminate/database" : "5.3.* || 5.4.* || 5.5.* || 5.6.*",
-		"illuminate/filesystem" : "5.3.* || 5.4.* || 5.5.* || 5.6.*",
-		"illuminate/auth": "5.3.* || 5.4.* || 5.5.* || 5.6.*",
+		"illuminate/console" : "^8.0",
+		"illuminate/database" : "^8.0",
+		"illuminate/filesystem" : "^8.0",
+		"illuminate/auth": "^8.0",
 		"predis/predis" : "^1.0"
 	},
 	"require-dev" : {
@@ -28,13 +28,13 @@
 	"minimum-stability" : "dev",
 	"autoload" : {
 		"psr-4" : {
-			"Feikwok\\RedisUI\\" : "src/"
+			"Zavrik\\RedisUI\\" : "src/"
 		}
 	},
 	"extra" : {
 		"laravel" : {
 			"providers" : [
-				"Feikwok\\RedisUI\\LaravelRedisUIServiceProvider"
+				"Zavrik\\RedisUI\\LaravelRedisUIServiceProvider"
 			]
 		}
 	}

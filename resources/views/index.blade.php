@@ -25,7 +25,7 @@
                     </tr>
                     <tr v-for="row in rows">
                         <td class="col-sm-4">@{{ row.key }}</td>
-                        <td><pre>@{{ row.content }}</pre></td>
+                        <td><pre style="width: 50vw; overflow: scroll">@{{ row.content }}</pre></td>
                         <td class="col-sm-2 text-center">
                             <div class="btn-group btn-group-sm">
                                 <button class="btn btn-warning" v-on:click="updateConfirm(row.key, row.content)">Edit</button>
@@ -41,11 +41,11 @@
 @endsection
 
 @section('header-scripts')
-    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue@2.7.14"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <link href="{{ asset('vendor/feikwok/laravel-redis-ui/css/dashboard.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('vendor/zavrik/laravel-redis-ui/css/dashboard.css') }}" rel="stylesheet"/>
 @endsection
 
 @section('footer-script')
-    <script src="{{ asset('vendor/feikwok/laravel-redis-ui/js/dashboard.js') }}"></script>
+    <script src="{{ asset('vendor/zavrik/laravel-redis-ui/js/dashboard.js') }}"></script>
 @endsection
